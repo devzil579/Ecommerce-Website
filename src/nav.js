@@ -2,12 +2,17 @@ import React from 'react'
 import { FaTruckMoving } from 'react-icons/fa'
 import { AiOutlineHeart } from 'react-icons/ai'
 import { AiOutlineUser } from 'react-icons/ai'
+import { CiLogin } from 'react-icons/ci'
+import { CiLogout } from 'react-icons/ci'
 import { BsBagCheck } from 'react-icons/bs'
 import 'bootstrap/dist/css/bootstrap.css';
 import { Link } from 'react-router-dom';
+import { useAuth0 } from '@auth0/auth0-react';
 import './nav.css'
 
 const Nav = () => {
+    const { isLoading, isAuthenticated, error, user, loginWithRedirect, logout } =
+    useAuth0();
     return(
         <>
         <div className='free d-flex flex-row bd-highlight mb-3 border'>
@@ -16,8 +21,8 @@ const Nav = () => {
             </div>
             <p>Free shipping when shopping upto $1000</p>
         </div>
-        <div className='main_header'>
-            <div className='container'>
+        <div className='main_header border-bottom p-0'>
+            <div className='container p-0'>
                 <div className='logo d-flex justify-content-start'>
                     <img src='./public/img.png' alt='logo'></img>
                 </div>
@@ -40,22 +45,32 @@ const Nav = () => {
                 </div>
             </div>
         </div>
-        <div className='header'>
-            <div className='contact'>
-                <ul>
-                    <li>
-                        <Link to='/'>Home</Link>
+        <div className='header p-3 shadow p-3 mb-5 bg-body-tertiary rounded'>
+            <div className='container d-flex justify-content-between'>
+                <ul className='d-inline-flex p-2 justify-content-start list-group list-group-horizontal'>
+                    <li className='list-group-item border border-0'>
+                        <Link to='/' className='text-decoration-none text-dark bg-white'>Home</Link>
                     </li>
-                    <li>
-                        <Link to='/product'>Product</Link>
+                    <li className='list-group-item border border-0'>
+                        <Link to='/product' className='text-decoration-none text-dark bg-white'>Product</Link>
                     </li>
-                    <li>
-                        <Link to='/about'>About</Link>
+                    <li className='list-group-item border border-0'>
+                        <Link to='/about' className='text-decoration-none text-dark bg-white'>About</Link>
                     </li>
-                    <li>
-                        <Link to='/contact'>Contact</Link>
+                    <li className='list-group-item border border-0'>
+                        <Link to='/contact' className='text-decoration-none text-dark bg-white'>Contact</Link>
                     </li>
                 </ul>
+                <div className='d-flex'>
+                    {
+                        isAuthenticated ?
+                        <button  onClick={() => loginWithRedirect()} class="btn btn-light"><CiLogin /></button>
+                        :
+                        <button type="button" onClick={() => logout({ returnTo: window.location.origin })} class="btn btn-light"><CiLogout /></button>
+                        
+                    }
+               
+               </div>
             </div>
         </div>
         </>
